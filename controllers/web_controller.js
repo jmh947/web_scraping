@@ -11,41 +11,91 @@ function webController(app) {
         //     console.log(results.data)
         // })
 
-        axios.get("http://www.echojs.com/").then(function(response) {
-            // Then, we load that into cheerio and save it to $ for a shorthand selector
-            var $ = cheerio.load(response.data);
-        
-            // Now, we grab every h2 within an article tag, and do the following:
-            $("article h2").each(function(i, element) {
-              // Save an empty result object
-              var result = {};
-        
-              // Add the text and href of every link, and save them as properties of the result object
-              result.Headline = $(this)
-                .children("a")
-                .text();
-              result.URL = $(this)
-                .children("a")
-                .attr("href");
-        
-              // Create a new Article using the `result` object built from scraping
-              db.Article.create(result)
-                .then(function(dbArticle) {
-                  // View the added result in the console
-                  console.log(dbArticle);
-                })
-                .catch(function(err) {
-                  // If an error occurred, log it
-                  console.log(err);
-                });
-            });
-        
-            // Send a message to the client
-            res.send("Scrape Complete");
-          });
+     db.Article.remove({}).then(function(){
+      axios.get("https://theoatmeal.com/blog").then(function(response) {
+        // Then, we load that into cheerio and save it to $ for a shorthand selector
+        var $ = cheerio.load(response.data);
+    
+        // Now, we grab every h2 within an article tag, and do the following:
+        $("div.center_text a").each(function(i, element) {
+          // Save an empty result object
+          var result = {};
+    
+          // Add the text and href of every link, and save them as properties of the result object
+          result.Headline = $(this)
 
+            .children("img.box_shadow")
+            .attr("alt");
+
+          result.URL = $(this)
+             .attr("href");
+            result.Image = $(this)
+      
+            .children("img.box_shadow")
+            .attr("src");
+    
+            if(result.Headline && result.URL && result.Image) {
+              db.Article.create(result)
+              .then(function(dbArticle) {
+                // View the added result in the console
+                console.log(dbArticle);
+              })
+              .catch(function(err) {
+                // If an error occurred, log it
+                console.log(err);
+              });
+            }
+          // Create a new Article using the `result` object built from scraping
+          
+        });
+    
+        // Send a message to the client
+        res.send("Scrape Complete");
+      });
+
+     })
+
+       
 
         // res.send("scrapping is completed")
+    })
+
+
+    app.put("/api/articles/:id", function(req, res){
+      db.Article.update({
+        _id: req.params.id
+      },{Saved: true}).then(function(results){
+        res.json(results)
+      })
+    })
+
+
+    app.get("/", function(req, res){
+      db.Article.find({Saved: false}).then(function(results){
+          const newResults = results.map(blog => {
+            return {
+              _id: blog._id,
+              Headline: blog.Headline,
+              URL: blog.URL,
+              Image: blog.Image
+            }
+          })
+          res.render("index", {Blog: newResults})
+      })
+    })
+
+    app.get("/savedArticle", function(req, res){
+      db.Article.find({Saved: true}).then(function(results){
+          const newResults = results.map(blog => {
+            return {
+              _id: blog._id,
+              Headline: blog.Headline,
+              URL: blog.URL,
+              Image: blog.Image
+            }
+          })
+          res.render("savedArticle", {Blog: newResults})
+      })
     })
 }
 
