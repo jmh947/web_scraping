@@ -54,10 +54,6 @@ function webController(app) {
       });
 
      })
-
-       
-
-        // res.send("scrapping is completed")
     })
 
 
@@ -69,6 +65,30 @@ function webController(app) {
       })
     })
 
+ 
+    app.delete("/api/delete/:id", function(req, res){
+      db.Article.deleteOne({
+        _id: req.params.id
+      }).then(article => {
+          res.json(article)
+        })
+    .catch(err => {
+      res.json(err)
+    })
+  
+    })
+
+app.delete("/delete/:id", function(req, res){
+  db.Article.deleteOne({
+    _id: req.params.id
+  }).then(article => {
+    res.render("savedArticle", {
+      Blog: article
+    })
+  }).catch(err => {
+    res.json(err)
+  })
+})
 
     app.get("/", function(req, res){
       db.Article.find({Saved: false}).then(function(results){

@@ -8,3 +8,14 @@ $(".saveButton").on("click", function(){
         location.reload()
     })
 })
+
+$(".deleteButton").on("click", function(){
+    var id = $(this).attr("data-id")
+    $.ajax({
+        url: "/api/delete/" + id,
+        method: "DELETE"
+    }).then(function(data){
+        console.log(data)
+        location.reload()
+    })
+})
