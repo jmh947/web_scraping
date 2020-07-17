@@ -9,6 +9,9 @@ Scraping Articles and Comics from theOatmeal by Matthew Inman.
     <npm i mongoose>
 ---
 
+## Deployment on Github
+https://jmh947.github.io/web_scraping/
+
 ## Deployment on Heroku
 https://web-scrape47.herokuapp.com/
 ---
