@@ -1,0 +1,31 @@
+body {
+    background-color: rgb(255, 255, 59) !important;
+}
+
+nav.navbar {
+    background-color: orange !important;
+}
+
+.navbar-brand {
+    color: Purple !important;
+}
+
+.nav-link {
+    color: purple !important;
+}
+
+div.container {
+    background-color: rgb(98, 219, 98);
+    padding-left: 30%;
+    padding-top: 5%;
+    padding-bottom: 5%;
+}
+
+
+div.card {
+    align-self: center !important;
+    box-shadow: 0 0 8px 12px black;
+    margin-bottom: 20px;
+}
+
+
