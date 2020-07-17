@@ -14,7 +14,7 @@ https://web-scrape47.herokuapp.com/
 ---
 
 ## GIF
-![App Gif]()
+![App Gif](web_scrape.gif)
 
 ## Routes
 
