@@ -1,7 +1,7 @@
 # Web Scraping
 Scraping Articles and Comics from theOatmeal by Matthew Inman.  
-Save blog posts that you want to get around to reading later. 
-Delete Blog posts you no longer want to save. 
+- Save blog posts that you want to get around to reading later. 
+- Delete Blog posts you no longer want to save. 
 
 ## Dependancies
     <npm i axios>
